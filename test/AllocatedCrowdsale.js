@@ -8,22 +8,18 @@ const Web3 = require('web3');
 const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 const moment = require('moment');
 
-const TOTAL_SUPPLY = 1 * Math.pow(10, 9) * Math.pow(10, 8);
-const CROWDSALE_SUPPLY = 330000000 * Math.pow(10, 8);
+const TOTAL_SUPPLY = 1 * Math.pow(10, 9) * Math.pow(10, 18);
+const CROWDSALE_SUPPLY = 1 * Math.pow(10, 9) * Math.pow(10, 18);
 
 const start = moment().add(-1, 'days').toDate().getTime() / 1000;
 const end = moment().add(30, 'days').toDate().getTime() / 1000;
-const min = 33000000000000000;
-const baseEthCap = 10000000000000000000;
+const min = 0;
 
-var name = 'Dala';
-var symbol = 'DALA';
+var name = 'Vio';
+var symbol = 'VIO';
 var totalSupply = TOTAL_SUPPLY;
-var decimals = 8;
-
-var cap = 80000000000000000000000;
-var supply = 330000000;
-var weiPerToken = cap / supply;
+var decimals = 18;
+var weiPerToken = 1000;
 
 contract('AllocatedCrowdsale', function (accounts) {
     let crowdsale;
@@ -43,7 +39,7 @@ contract('AllocatedCrowdsale', function (accounts) {
                 token = _token;
             }).then(() => token.setTransferAgent(accounts[0], true))
             .then(() => token.setUpgradeMaster(wallet.address))
-            .then(() => AllocatedCrowdsale.new(token.address, pricing.address, wallet.address, start, end, min, accounts[0], baseEthCap))
+            .then(() => AllocatedCrowdsale.new(token.address, pricing.address, wallet.address, start, end, min, accounts[0]))
             .then(_crowdsale => {
                 crowdsale = _crowdsale;
             }).then(() => DefaultFinalizeAgent.new(token.address, crowdsale.address))
@@ -54,25 +50,15 @@ contract('AllocatedCrowdsale', function (accounts) {
             .then(() => token.setTransferAgent(finalizer.address, true))
             .then(() => token.setTransferAgent(crowdsale.address, true))
             .then(() => token.setTransferAgent(wallet.address, true))
-            .then(() => token.approve(crowdsale.address, 33000000000000000));
+            .then(() => token.approve(crowdsale.address, 1 * Math.pow(10, 9) * Math.pow(10, 18)));
     });
-    it('should have the crowdsale contract authorized to transfer 330 million tokens', function () {
+    it('should have the crowdsale contract authorized to transfer 1 billion tokens', function () {
         return token.allowance(accounts[0], crowdsale.address).then(allowance => {
-            return assert.equal(allowance, CROWDSALE_SUPPLY, 'There were not 330 million tokens authorized for transfer by the crowdsale');
+            return assert.equal(allowance, CROWDSALE_SUPPLY, 'There were not 1 billion tokens authorized for transfer by the crowdsale');
         });
-    });
-    it('should work with the whitelist', function () {
-        return crowdsale.addToWhitelist(accounts[5], true).then(() => crowdsale.sendTransaction({ from: accounts[5], value: 1000000000000 })).then(() => {
-            assert.equal(true, true);
-        });
-    });
-    it('should fail if account not in whitelist', function () {
-        return crowdsale.sendTransaction({ from: accounts[5], value: 1000000000000 }).then(() => {
-            assert.fail('Should have failed');
-        }).catch(assertJump);
     });
     it('should forward all funds to the wallet', function () {
-        return crowdsale.addToWhitelist(accounts[5], true).then(() => crowdsale.sendTransaction({ from: accounts[5], value: 1000000000000 })).then(() => {
+        return crowdsale.sendTransaction({ from: accounts[5], value: 1000000000000 }).then(() => {
             return getBalance(wallet.address);
         }).then(balance => {
             assert.equal(balance, 1000000000000);
@@ -86,24 +72,5 @@ contract('AllocatedCrowdsale', function (accounts) {
                 });
             });
         }
-    });
-    it('should prevent an address contributing more than the cap in a single transaction', function () {
-        return crowdsale.addToWhitelist(accounts[1], true)
-            .then(() => crowdsale.getCurrentEthCap())
-            .then(cap => {
-                var amount = cap + 1;
-                return crowdsale.sendTransaction({ from: accounts[1], value: amount });
-            }).then(() => assert.fail('should not be allowed')).catch(assertJump);
-    });
-    it('should prevent an address contributing more than the cap in multiple transactions', function () {
-        return crowdsale.addToWhitelist(accounts[1], true)
-            .then(() => crowdsale.getCurrentEthCap())
-            .then(cap => {
-                var amount = cap - web3.toWei(1, 'ether');
-                return crowdsale.sendTransaction({ from: accounts[1], value: amount });
-            }).then(() => {
-                var amount = web3.toWei(2, 'ether');
-                return crowdsale.sendTransaction({ from: accounts[1], value: amount });
-            }).then(() => assert.fail('should not be allowed')).catch(assertJump);
     });
 });

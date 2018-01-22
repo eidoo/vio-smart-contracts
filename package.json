@@ -9,11 +9,11 @@
     "coverage": "sh scripts/coverage.sh",
     "coveralls": "sh scripts/coveralls.sh"
   },
-  "name": "wala-dala-smart-contracts",
+  "name": "vio-smart-contracts",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@github.com:GetWala/wala-dala-smart-contracts.git",
-  "author": "Ross McEwan <ross@getwala.com>",
+  "repository": "git@github.com:viomeio/vio-smart-contracts.git",
+  "author": "Kyle Riley <kyle@iosiro.com>",
   "license": "MIT",
   "devDependencies": {
     "coveralls": "^2.13.1",

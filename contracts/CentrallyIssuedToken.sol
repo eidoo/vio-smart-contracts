@@ -8,7 +8,6 @@ pragma solidity ^0.4.6;
 
 import "./UpgradeableToken.sol";
 import "./ReleasableToken.sol";
-import "./PausableToken.sol";
 
 /**
  * Centrally issued Ethereum token.
@@ -20,7 +19,7 @@ import "./PausableToken.sol";
  * The owner, or anybody, can burn any excessive tokens they are holding.
  *
  */
-contract CentrallyIssuedToken is UpgradeableToken, ReleasableToken, PausableToken {
+contract CentrallyIssuedToken is UpgradeableToken, ReleasableToken {
 
   string public name;
   string public symbol;

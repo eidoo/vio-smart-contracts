@@ -1,7 +1,11 @@
 ## Table of Contents
+* [Introduction](#introduction)
 * [Token](#token)
 * [Crowdsale](#crowdsale)
 * [Wallet](#wallet)
+
+# Introduction
+Token and crowdsale smart contracts for the VIO token.
 
 # Token
 [CentrallyIssuedToken.sol](https://github.com/GetDala/dala-smart-contracts/blob/master/contracts/CentrallyIssuedToken.sol)
@@ -11,7 +15,7 @@
 
 # Crowdsale
 [AllocatedCrowdsale.sol](https://github.com/GetDala/dala-smart-contracts/blob/master/contracts/AllocatedCrowdsale.sol)
-* The crowdsale is based on the [TokenMarket AllocatedCrowdsale](https://github.com/TokenMarketNet/ico/blob/master/contracts/AllocatedCrowdsale.sol) contract with some alterations to support whitelisting and a dynamic ETH cap per user that increases over time.
+* The crowdsale is based on the [TokenMarket AllocatedCrowdsale](https://github.com/TokenMarketNet/ico/blob/master/contracts/AllocatedCrowdsale.sol) contract.
 
 # Wallet
 [MultiSigWalletWithDailyLimit.sol](https://github.com/GetDala/dala-smart-contracts/blob/master/contracts/MultiSigWalletWithDailyLimit.sol)

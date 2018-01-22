@@ -7,11 +7,10 @@
 pragma solidity ^0.4.15;
 
 import 'zeppelin-solidity/contracts/math/SafeMath.sol';
-import "./Haltable.sol";
+import "zeppelin-solidity/contracts/ownership/Ownable.sol";
 import "./PricingStrategy.sol";
 import "./FinalizeAgent.sol";
 import "./FractionalERC20.sol";
-
 
 /**
  * Abstract base contract for token sales.
@@ -25,13 +24,7 @@ import "./FractionalERC20.sol";
  * - different investment policies (require server side customer id, allow only whitelisted addresses)
  *
  */
-contract Crowdsale is Haltable {
-  /* Time period to scale eth cap */
-  uint public constant TIME_PERIOD_IN_SEC = 1 days;
-
-  /* Base eth cap */
-  uint public baseEthCap;
-
+contract Crowdsale is Ownable {
   /* Max investment count when we are still allowed to change the multisig address */
   uint public MAX_INVESTMENTS_BEFORE_MULTISIG_CHANGE = 5;
 
@@ -100,9 +93,6 @@ contract Crowdsale is Haltable {
   /** Addresses that are allowed to invest even before ICO offical opens. For testing, for ICO partners, etc. */
   mapping (address => bool) public earlyParticipantWhitelist;
 
-  /** Addresses that are allowed to particpate in the ICO */
-  mapping (address => bool) public whitelist;
-
   /** This is for manul testing for the interaction from owner wallet. You can set it to any value and inspect this in blockchain explorer to see that crowdsale interaction works. */
   uint public ownerTestValue;
 
@@ -133,14 +123,9 @@ contract Crowdsale is Haltable {
   // Crowdsale end time has been changed
   event EndsAtChanged(uint newEndsAt);
 
-  // Base eth cap has been changed
-  event BaseEthCapChanged(uint newBaseEthCap);
-
-  function Crowdsale(address _token, PricingStrategy _pricingStrategy, address _multisigWallet, uint _start, uint _end, uint _minimumFundingGoal, uint _baseEthCap) {
+  function Crowdsale(address _token, PricingStrategy _pricingStrategy, address _multisigWallet, uint _start, uint _end, uint _minimumFundingGoal) {
 
     owner = msg.sender;
-
-    baseEthCap = _baseEthCap;
 
     token = FractionalERC20(_token);
 
@@ -186,7 +171,7 @@ contract Crowdsale is Haltable {
    * @param customerId (optional) UUID v4 to track the successful payments on the server side
    *
    */
-  function investInternal(address receiver, uint128 customerId) stopInEmergency private {
+  function investInternal(address receiver, uint128 customerId) private {
 
     // Determine if it's a good time to accept investment from this participant
     if (getState() == State.PreFunding) {
@@ -195,10 +180,6 @@ contract Crowdsale is Haltable {
         revert();
       }
     } else if (getState() == State.Funding) {
-      //only whitelisted participants are allowed to take part in the ICO
-      if (!whitelist[receiver]) {
-        revert();
-      }
       // Retail participants can only come in when the crowdsale is running
       // pass
     } else {
@@ -207,12 +188,6 @@ contract Crowdsale is Haltable {
     }
 
     uint weiAmount = msg.value;
-    //get the eth cap for the time period
-    uint currentEthCap = getCurrentEthCap();
-    if (weiAmount > currentEthCap) {
-      // We don't allow more than the current cap
-      revert();
-    }
 
     // Account presale sales separately, so that they do not count against pricing tranches
     uint tokenAmount = pricingStrategy.calculatePrice(weiAmount, weiRaised - presaleWeiRaised, tokensSold, msg.sender, token.decimals());
@@ -229,11 +204,6 @@ contract Crowdsale is Haltable {
 
     // Update investor
     investedAmountOf[receiver] = investedAmountOf[receiver].add(weiAmount);
-
-    if (investedAmountOf[receiver] > currentEthCap) {
-      //cannot contribute more than dynamic eth cap
-      revert();
-    }
 
     tokenAmountOf[receiver] = tokenAmountOf[receiver].add(tokenAmount);
 
@@ -259,15 +229,6 @@ contract Crowdsale is Haltable {
 
     // Tell us invest was success
     Invested(receiver, weiAmount, tokenAmount, customerId);
-  }
-
-  function getCurrentEthCap() public constant returns (uint) {
-    if (block.timestamp < startsAt) 
-      return 0;
-    uint timeSinceStart = block.timestamp.sub(startsAt);
-    uint currentPeriod = timeSinceStart.div(TIME_PERIOD_IN_SEC).add(1);
-    uint ethCap = baseEthCap.mul((2**currentPeriod).sub(1));
-    return ethCap;
   }
 
   /**
@@ -366,7 +327,7 @@ contract Crowdsale is Haltable {
    *
    * The owner can triggre a call the contract that provides post-crowdsale actions, like releasing the tokens.
    */
-  function finalize() public inState(State.Success) onlyOwner stopInEmergency {
+  function finalize() public inState(State.Success) onlyOwner {
 
     // Already finalized
     if (finalized) {
@@ -422,33 +383,6 @@ contract Crowdsale is Haltable {
   function setEarlyParticipantWhitelist(address addr, bool status) onlyOwner {
     earlyParticipantWhitelist[addr] = status;
     Whitelisted(addr, status);
-  }
-
-  /**
-   * Allow ICO participants
-   */
-  function addToWhitelist(address addr, bool status) onlyOwner {
-    whitelist[addr] = status;
-    Whitelisted(addr, status);
-  }
-
-  /**
-   * Allow ICO participants
-   */
-  function addAllToWhitelist(address[] addresses, bool status) onlyOwner {
-    for (uint index = 0; index < addresses.length; index++) {
-      addToWhitelist(addresses[index], status);
-    }
-  }
-
-  /** 
-   * Set the base eth cap
-   */
-  function setBaseEthCap(uint _baseEthCap) onlyOwner {
-    if (_baseEthCap == 0) 
-      revert();
-    baseEthCap = _baseEthCap;
-    BaseEthCapChanged(baseEthCap);
   }
 
   /**

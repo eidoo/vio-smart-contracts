@@ -1,5 +1,5 @@
 {
-  "contract_name": "UpgradeAgent",
+  "contractName": "UpgradeAgent",
   "abi": [
     {
       "constant": true,
@@ -12,6 +12,7 @@
         }
       ],
       "payable": false,
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -25,6 +26,7 @@
         }
       ],
       "payable": false,
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -42,11 +44,289 @@
       "name": "upgradeFrom",
       "outputs": [],
       "payable": false,
+      "stateMutability": "nonpayable",
       "type": "function"
     }
   ],
-  "unlinked_binary": "0x",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "/**\n * This smart contract code is Copyright 2017 TokenMarket Ltd. For more information see https://tokenmarket.net\n *\n * Licensed under the Apache License, version 2.0: https://github.com/TokenMarketNet/ico/blob/master/LICENSE.txt\n */\n\npragma solidity ^0.4.15;\n\n/**\n * Upgrade agent interface inspired by Lunyr.\n *\n * Upgrade agent transfers tokens to a new contract.\n * Upgrade agent itself can be the token contract, or just a middle man contract doing the heavy lifting.\n */\ncontract UpgradeAgent {\n\n  uint public originalSupply;\n\n  /** Interface marker */\n  function isUpgradeAgent() public constant returns (bool) {\n    return true;\n  }\n\n  function upgradeFrom(address _from, uint256 _value) public;\n\n}\n",
+  "sourcePath": "/Users/kyle/Documents/dev/dala-smart-contracts/contracts/UpgradeAgent.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/Users/kyle/Documents/dev/dala-smart-contracts/contracts/UpgradeAgent.sol",
+      "exportedSymbols": {
+        "UpgradeAgent": [
+          3106
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".15"
+          ]
+        },
+        "id": 3088,
+        "name": "PragmaDirective",
+        "src": "237:24:16"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": "Upgrade agent interface inspired by Lunyr.\n * Upgrade agent transfers tokens to a new contract.\nUpgrade agent itself can be the token contract, or just a middle man contract doing the heavy lifting.",
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            3106
+          ],
+          "name": "UpgradeAgent",
+          "scope": 3107
+        },
+        "children": [
+          {
+            "attributes": {
+              "constant": false,
+              "name": "originalSupply",
+              "scope": 3106,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "uint256",
+              "value": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "uint",
+                  "type": "uint256"
+                },
+                "id": 3089,
+                "name": "ElementaryTypeName",
+                "src": "506:4:16"
+              }
+            ],
+            "id": 3090,
+            "name": "VariableDeclaration",
+            "src": "506:26:16"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "isUpgradeAgent",
+              "payable": false,
+              "scope": 3106,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 3091,
+                "name": "ParameterList",
+                "src": "586:2:16"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 3098,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 3092,
+                        "name": "ElementaryTypeName",
+                        "src": "614:4:16"
+                      }
+                    ],
+                    "id": 3093,
+                    "name": "VariableDeclaration",
+                    "src": "614:4:16"
+                  }
+                ],
+                "id": 3094,
+                "name": "ParameterList",
+                "src": "613:6:16"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 3094
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "hexvalue": "74727565",
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "lValueRequested": false,
+                          "subdenomination": null,
+                          "token": "bool",
+                          "type": "bool",
+                          "value": "true"
+                        },
+                        "id": 3095,
+                        "name": "Literal",
+                        "src": "633:4:16"
+                      }
+                    ],
+                    "id": 3096,
+                    "name": "Return",
+                    "src": "626:11:16"
+                  }
+                ],
+                "id": 3097,
+                "name": "Block",
+                "src": "620:22:16"
+              }
+            ],
+            "id": 3098,
+            "name": "FunctionDefinition",
+            "src": "563:79:16"
+          },
+          {
+            "attributes": {
+              "body": null,
+              "constant": false,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "upgradeFrom",
+              "payable": false,
+              "scope": 3106,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_from",
+                      "scope": 3105,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 3099,
+                        "name": "ElementaryTypeName",
+                        "src": "667:7:16"
+                      }
+                    ],
+                    "id": 3100,
+                    "name": "VariableDeclaration",
+                    "src": "667:13:16"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_value",
+                      "scope": 3105,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 3101,
+                        "name": "ElementaryTypeName",
+                        "src": "682:7:16"
+                      }
+                    ],
+                    "id": 3102,
+                    "name": "VariableDeclaration",
+                    "src": "682:14:16"
+                  }
+                ],
+                "id": 3103,
+                "name": "ParameterList",
+                "src": "666:31:16"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 3104,
+                "name": "ParameterList",
+                "src": "704:0:16"
+              }
+            ],
+            "id": 3105,
+            "name": "FunctionDefinition",
+            "src": "646:59:16"
+          }
+        ],
+        "id": 3106,
+        "name": "ContractDefinition",
+        "src": "479:229:16"
+      }
+    ],
+    "id": 3107,
+    "name": "SourceUnit",
+    "src": "237:472:16"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+  },
   "networks": {},
-  "schema_version": "0.0.5",
-  "updated_at": 1505227431057
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2018-01-17T13:35:24.585Z"
 }

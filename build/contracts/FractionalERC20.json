@@ -1,5 +1,5 @@
 {
-  "contract_name": "FractionalERC20",
+  "contractName": "FractionalERC20",
   "abi": [
     {
       "constant": false,
@@ -21,6 +21,7 @@
         }
       ],
       "payable": false,
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -34,6 +35,7 @@
         }
       ],
       "payable": false,
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -60,6 +62,7 @@
         }
       ],
       "payable": false,
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -73,6 +76,7 @@
         }
       ],
       "payable": false,
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -91,6 +95,7 @@
         }
       ],
       "payable": false,
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -113,6 +118,7 @@
         }
       ],
       "payable": false,
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -135,6 +141,7 @@
         }
       ],
       "payable": false,
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -182,8 +189,132 @@
       "type": "event"
     }
   ],
-  "unlinked_binary": "0x",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "/**\n * This smart contract code is Copyright 2017 TokenMarket Ltd. For more information see https://tokenmarket.net\n *\n * Licensed under the Apache License, version 2.0: https://github.com/TokenMarketNet/ico/blob/master/LICENSE.txt\n */\n\npragma solidity ^0.4.15;\n\nimport \"zeppelin-solidity/contracts/token/ERC20.sol\";\n\n/**\n * A token that defines fractional units as decimals.\n */\ncontract FractionalERC20 is ERC20 {\n\n  uint public decimals;\n\n}\n",
+  "sourcePath": "/Users/kyle/Documents/dev/dala-smart-contracts/contracts/FractionalERC20.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/Users/kyle/Documents/dev/dala-smart-contracts/contracts/FractionalERC20.sol",
+      "exportedSymbols": {
+        "FractionalERC20": [
+          1300
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".15"
+          ]
+        },
+        "id": 1294,
+        "name": "PragmaDirective",
+        "src": "237:24:6"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 3615,
+          "absolutePath": "zeppelin-solidity/contracts/token/ERC20.sol",
+          "file": "zeppelin-solidity/contracts/token/ERC20.sol",
+          "scope": 1301,
+          "symbolAliases": [
+            null
+          ],
+          "unitAlias": ""
+        },
+        "id": 1295,
+        "name": "ImportDirective",
+        "src": "263:53:6"
+      },
+      {
+        "attributes": {
+          "contractDependencies": [
+            3614,
+            3643
+          ],
+          "contractKind": "contract",
+          "documentation": "A token that defines fractional units as decimals.",
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            1300,
+            3614,
+            3643
+          ],
+          "name": "FractionalERC20",
+          "scope": 1301
+        },
+        "children": [
+          {
+            "attributes": {
+              "arguments": [
+                null
+              ]
+            },
+            "children": [
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "ERC20",
+                  "referencedDeclaration": 3614,
+                  "type": "contract ERC20"
+                },
+                "id": 1296,
+                "name": "UserDefinedTypeName",
+                "src": "408:5:6"
+              }
+            ],
+            "id": 1297,
+            "name": "InheritanceSpecifier",
+            "src": "408:5:6"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "name": "decimals",
+              "scope": 1300,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "uint256",
+              "value": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "uint",
+                  "type": "uint256"
+                },
+                "id": 1298,
+                "name": "ElementaryTypeName",
+                "src": "419:4:6"
+              }
+            ],
+            "id": 1299,
+            "name": "VariableDeclaration",
+            "src": "419:20:6"
+          }
+        ],
+        "id": 1300,
+        "name": "ContractDefinition",
+        "src": "380:63:6"
+      }
+    ],
+    "id": 1301,
+    "name": "SourceUnit",
+    "src": "237:207:6"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+  },
   "networks": {},
-  "schema_version": "0.0.5",
-  "updated_at": 1505227431056
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2018-01-17T13:35:24.581Z"
 }
