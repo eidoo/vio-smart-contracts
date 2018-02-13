@@ -15,6 +15,12 @@ module.exports = {
       network_id: 8995,
       gas: 4500000,
       gasPrice: 25000000000
+    },
+    docker: {
+      host: 'localhost',
+      port: 8545,
+      network_id: '8996', // in decimale Match any network id
+      gas: 4700000
     }
     // ropsten: {
     //   provider: function() {

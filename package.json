@@ -8,7 +8,8 @@
     "test": "sh scripts/test.sh",
     "console": "truffle console",
     "coverage": "sh scripts/coverage.sh",
-    "coveralls": "sh scripts/coveralls.sh"
+    "coveralls": "sh scripts/coveralls.sh",
+    "migrate": "truffle migrate --network docker --reset"
   },
   "name": "vio-smart-contracts",
   "version": "1.0.0",
