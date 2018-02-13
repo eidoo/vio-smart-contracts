@@ -2,7 +2,7 @@
   "dependencies": {
     "moment": "^2.18.1",
     "truffle-hdwallet-provider": "0.0.3",
-    "zeppelin-solidity": "^1.2.0"
+    "zeppelin-solidity": "1.2.0"
   },
   "scripts": {
     "test": "sh scripts/test.sh",

@@ -1,21 +1,20 @@
-const wallet = require('../secret').fundsWallet;
 var CentrallyIssuedToken = artifacts.require('./CentrallyIssuedToken.sol');
 var FlatPricing = artifacts.require('./FlatPricing.sol');
 var AllocatedCrowdsale = artifacts.require('./AllocatedCrowdsale.sol');
 
 const moment = require('moment');
 
-module.exports = function (deployer, network) {
+module.exports = function (deployer, network, accounts) {
   const token = CentrallyIssuedToken.address;
   const pricing = FlatPricing.address;
   
   const min = 0;
   
 
-  if(network == 'development' || network == 'develop'){
+  if(network == 'development' || network == 'develop' || network == 'dev-shared'){
     var beneficiary = web3.eth.accounts[0]; // Address that initially holds all of the tokens
-    var start = moment.utc('2019-02-13 13:18').toDate().getTime() / 1000;
-    var end = moment.utc('2019-02-14 10:31').toDate().getTime() / 1000;
+    var start = (Date.now() + 60000) / 1000;
+    var end = (Date.now() + 600000) / 1000;
   }
   
   if(network == 'ropsten'){
@@ -30,5 +29,5 @@ module.exports = function (deployer, network) {
     var end = moment.utc('2018-03-02 12:00').toDate().getTime() / 1000;
   }
   
-  deployer.deploy(AllocatedCrowdsale, token, pricing, wallet, start, end, min, beneficiary);
+  deployer.deploy(AllocatedCrowdsale, token, pricing, accounts[1], start, end, min, beneficiary);
 };

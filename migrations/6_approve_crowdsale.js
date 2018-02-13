@@ -1,4 +1,4 @@
-const fundsWallet = require('../secret').fundsWallet;
+// const fundsWallet = require('../secret').fundsWallet;
 
 var AllocatedCrowdsale = artifacts.require('./AllocatedCrowdsale.sol');
 var CentrallyIssuedToken = artifacts.require('./CentrallyIssuedToken.sol');
@@ -33,11 +33,11 @@ module.exports = function (deployer, network) {
                 token.setTransferAgent(AllocatedCrowdsale.address, true);
                 token.setTransferAgent(DefaultFinalizeAgent.address, true);
                 token.setTransferAgent(owner, true); // Allow beneficiary / owner to transfer tokens
-                token.setTransferAgent(fundsWallet, true); // Allow company to transfer tokens
+                token.setTransferAgent(accounts[1], true); // Allow company to transfer tokens
                 token.setReleaseAgent(DefaultFinalizeAgent.address);
                 token.setUpgradeMaster(owner);
                 crowdsale.setFinalizeAgent(DefaultFinalizeAgent.address);
-                crowdsale.preallocate(fundsWallet, 750000000, 0); // Preallocate company tokens as "full" tokens, i.e. no decimals
+                crowdsale.preallocate(accounts[1], 750000000, 0); // Preallocate company tokens as "full" tokens, i.e. no decimals
             });
         });
     } 
