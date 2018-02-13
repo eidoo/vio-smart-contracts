@@ -1,10 +1,11 @@
+const wallet = require('../secret').fundsWallet;
 var CentrallyIssuedToken = artifacts.require('./CentrallyIssuedToken.sol');
 var FlatPricing = artifacts.require('./FlatPricing.sol');
 var AllocatedCrowdsale = artifacts.require('./AllocatedCrowdsale.sol');
 
 const moment = require('moment');
 
-module.exports = function (deployer, network, accounts) {
+module.exports = function (deployer, network) {
   const token = CentrallyIssuedToken.address;
   const pricing = FlatPricing.address;
   
@@ -29,5 +30,5 @@ module.exports = function (deployer, network, accounts) {
     var end = moment.utc('2018-03-02 12:00').toDate().getTime() / 1000;
   }
   
-  deployer.deploy(AllocatedCrowdsale, token, pricing, accounts[1], start, end, min, beneficiary);
+  deployer.deploy(AllocatedCrowdsale, token, pricing, wallet, start, end, min, beneficiary);
 };
