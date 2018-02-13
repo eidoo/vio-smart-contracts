@@ -1,9 +1,3 @@
-## Table of Contents
-* [Introduction](#introduction)
-* [Token](#token)
-* [Crowdsale](#crowdsale)
-* [Wallet](#wallet)
-
 # Introduction
 Token and crowdsale smart contracts for the VIO token.
 
