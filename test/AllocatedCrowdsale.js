@@ -1,7 +1,7 @@
 var AllocatedCrowdsale = artifacts.require('./AllocatedCrowdsale.sol');
 var CentrallyIssuedToken = artifacts.require('./CentrallyIssuedToken.sol');
 var FlatPricing = artifacts.require('./FlatPricing.sol');
-var MultiSigWallet = artifacts.require('./MultiSigWallet.sol');
+//var MultiSigWallet = artifacts.require('./MultiSigWallet.sol');
 var DefaultFinalizeAgent = artifacts.require('./DefaultFinalizeAgent.sol');
 const assertJump = require('./helpers/assertJump');
 const Web3 = require('web3');
@@ -24,32 +24,26 @@ var weiPerToken = 1000;
 contract('AllocatedCrowdsale', function (accounts) {
     let crowdsale;
     let token;
-    let wallet;
+    //let wallet;
     let pricing;
     let finalizer;
+    let wallet = "0x97A3FC5Ee46852C1Cf92A97B7BaD42F2622267cC";
     beforeEach(function () {
-        return Promise.resolve().then(() => FlatPricing.new(weiPerToken))
-            .then(_pricing => {
-                pricing = _pricing;
-            }).then(() => MultiSigWallet.new([accounts[1], accounts[2]], 2))
-            .then(_wallet => {
-                wallet = _wallet
-            }).then(() => CentrallyIssuedToken.new(accounts[0], name, symbol, totalSupply, decimals))
-            .then(_token => {
-                token = _token;
-            }).then(() => token.setTransferAgent(accounts[0], true))
-            .then(() => token.setUpgradeMaster(wallet.address))
-            .then(() => AllocatedCrowdsale.new(token.address, pricing.address, wallet.address, start, end, min, accounts[0]))
-            .then(_crowdsale => {
-                crowdsale = _crowdsale;
-            }).then(() => DefaultFinalizeAgent.new(token.address, crowdsale.address))
-            .then(_finalizer => {
-                finalizer = _finalizer;
-            }).then(() => crowdsale.setFinalizeAgent(finalizer.address))
+        return Promise.resolve()
+            .then(() => FlatPricing.new(weiPerToken))
+            .then(_pricing => {pricing = _pricing;})
+            .then(() => CentrallyIssuedToken.new(accounts[0], name, symbol, totalSupply, decimals))
+            .then(_token => {token = _token;})
+            .then(() => token.setTransferAgent(accounts[0], true))
+            .then(() => AllocatedCrowdsale.new(token.address, pricing.address, wallet, start, end, min, accounts[0]))
+            .then(_crowdsale => {crowdsale = _crowdsale;})
+            .then(() => DefaultFinalizeAgent.new(token.address, crowdsale.address))
+            .then(_finalizer => {finalizer = _finalizer;})
+            .then(() => crowdsale.setFinalizeAgent(finalizer.address))
             .then(() => token.setReleaseAgent(finalizer.address))
             .then(() => token.setTransferAgent(finalizer.address, true))
             .then(() => token.setTransferAgent(crowdsale.address, true))
-            .then(() => token.setTransferAgent(wallet.address, true))
+            .then(() => token.setTransferAgent(wallet, true))
             .then(() => token.approve(crowdsale.address, 1 * Math.pow(10, 9) * Math.pow(10, 18)));
     });
     it('should have the crowdsale contract authorized to transfer 1 billion tokens', function () {
@@ -59,7 +53,7 @@ contract('AllocatedCrowdsale', function (accounts) {
     });
     it('should forward all funds to the wallet', function () {
         return crowdsale.sendTransaction({ from: accounts[5], value: 1000000000000 }).then(() => {
-            return getBalance(wallet.address);
+            return getBalance(wallet);
         }).then(balance => {
             assert.equal(balance, 1000000000000);
         })

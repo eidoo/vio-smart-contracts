@@ -65,3 +65,6 @@ build
 
 # Project notes
 notes
+
+# Secrets
+secret.js

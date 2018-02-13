@@ -172,7 +172,7 @@ contract Crowdsale is Ownable {
    *
    */
   function investInternal(address receiver, uint128 customerId) private {
-
+    
     // Determine if it's a good time to accept investment from this participant
     if (getState() == State.PreFunding) {
       // Are we whitelisted for early deposit
@@ -186,7 +186,7 @@ contract Crowdsale is Ownable {
       // Unwanted state
       revert();
     }
-
+    
     uint weiAmount = msg.value;
 
     // Account presale sales separately, so that they do not count against pricing tranches
@@ -222,13 +222,14 @@ contract Crowdsale is Ownable {
     }
 
     assignTokens(receiver, tokenAmount);
-
+  
     // Pocket the money
     if (!multisigWallet.send(weiAmount)) 
       revert();
-
+  
     // Tell us invest was success
     Invested(receiver, weiAmount, tokenAmount, customerId);
+    
   }
 
   /**

@@ -4,11 +4,5 @@ var DefaultFinalizeAgent = artifacts.require('./DefaultFinalizeAgent.sol');
 var CentrallyIssuedToken = artifacts.require('./CentrallyIssuedToken.sol');
 
 module.exports = function (deployer, network) {
-    if (network == 'develop') {
-        deployer.deploy(DefaultFinalizeAgent, CentrallyIssuedToken.address, AllocatedCrowdsale.address);
-    }
-    if(network == 'ropsten' || network == 'infuraropsten'){
-    } 
-    if(network == 'mainnet' || network == 'infuramainnet'){
-    }
+    deployer.deploy(DefaultFinalizeAgent, CentrallyIssuedToken.address, AllocatedCrowdsale.address);
 }
